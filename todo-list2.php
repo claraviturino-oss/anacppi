@@ -5,23 +5,38 @@ $usuario = 'root';
 $senha = '';
 $database = 'todo_list'; 
 
-$conn = mysqli_connect($localhost,$usuario,$senha, $database);
+$conn = new mysqli($localhost,$usuario,$senha, $database);
 
 if($conn->connect_error){
     die('Deu erro na conexão'. $conn->connect_error);
 }
 
 # criacao de tarefas
-if(isset($_POST['descricao'])){
+if(isset($_POST['descricao']) && !empty(trim($_POST['descricao']))){ // isset avalia se a conexao descricao funciona e tem valor
     $descricao = $conn->real_escape_string($_POST['descricao']);
     $sqlInsert = "INSERT INTO tarefas (descricao) VALUES ('$descricao')"; 
+
+if($conn->query($sqlInsert) === TRUE){ //executa uma consulta no banco de dados
+header("location: todo-list2.php");
+} 
+
+
 }
 # Exclusão de tarefas
 
 
-$tarefas=[]; 
-# Listar tarefas
 
+# Listar tarefas
+$tarefas=[]; 
+
+$sqlSelect = " SELECT * FROM tarefas ORDER BY data_criacao DESC";
+$result = $conn->query($sqlSelect); //guarda o negocio ordenado
+
+if($result->num_rows>0){ //obtem o numero de linhas q tem na consulta
+    while($row = $result->fetch_assoc()){ //pega a proxima linha 
+        $tarefas[]=$row;
+}
+}
 
 ?>
 
