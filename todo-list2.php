@@ -24,7 +24,15 @@ header("location: todo-list2.php");
 }
 # Exclusão de tarefas
 
+if(isset($_GET['delete'])){
+    $id = intval($_GET['delete']);
 
+    $sqlDelete = "DELETE FROM tarefas WHERE id = $id";
+
+    if($conn->query($sqlDelete) === TRUE){
+        header("location: todo-list2.php");
+    }
+}
 
 # Listar tarefas
 $tarefas=[]; 
@@ -57,6 +65,15 @@ if($result->num_rows>0){ //obtem o numero de linhas q tem na consulta
 
     <h2>Suas tarefas</h2>
     <?php if(!empty($tarefas)):?>
+        <ul>
+            <?php foreach($tarefas as $tarefa):?>
+                <li>
+                    <?php echo $tarefa['descricao'] ?>
+                    <a href="todo-list2.php?delete=<?php echo $tarefa['id']?>">Excluir</a>
+                </li>
+            <?php endforeach?>
+        </ul>
+    
     <h3>Suas tarefas</h3>
     <?php else:?>
     <h3>Não tem tarefas</h3>
