@@ -8,6 +8,14 @@ class TarefaController{
     $this->tarefaModel = new Tarefa();
     
     }
+## Listar
+
+public function index(){
+     $tarefas = $this->tarefaModel->listar();
+     include __DIR__ . '/../views/listar.php';
+
+
+}
 
 ## Criar
 
@@ -25,6 +33,7 @@ public function criar(){
 public function excluir(){
     if(isset($_GET['delete'])){
         $this->tarefaModel->excluir($_GET['delete']);
+        
 
     }
     header ("Location: index.php");
