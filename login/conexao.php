@@ -6,10 +6,10 @@
  $database = "login"; 
 
 
-$conn = new mysqli(
+$mysqli = new mysqli(
     $host, $usario, $senha, $database); 
 
-if($conn->connect_error){
+if($mysqli->connect_error){
     die("nao deu certo fazer a conexao");
 }
 
